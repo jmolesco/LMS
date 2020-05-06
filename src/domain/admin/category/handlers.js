@@ -23,7 +23,7 @@ module.exports = {
     const repo = repository(connection);
     const newCategoryDeleteStatus = await repo.CategoryRepository.deleteCategory({
       ncategory_id: categoryDeleteInput.ncategory_id,
-      status: 0,
+      status: categoryDeleteInput.status,
     });
     return newCategoryDeleteStatus;
   }),

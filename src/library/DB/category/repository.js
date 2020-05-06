@@ -36,7 +36,7 @@ function CategoryRepository(connection) {
     const criteria = categoryCriteria();
     criteria.IdEqual(props.ncategory_id);
     const categoryData = {};
-    categoryData.status = 0;
+    categoryData.status = props.status;
     const result = await categoryDB.update(categoryData, criteria.getBuildCriteria());
     return result.affectedRows > 0;
   };
