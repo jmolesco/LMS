@@ -24,6 +24,7 @@ module.exports = {
     if (searchKeyword) {
       criteria.keywordLike(searchKeyword.keyword);
     }
+    let noOrderBy = false;
     if (orderBy) {
       if (orderBy.orderKey === 1) { // ID
         if (orderBy.orderType === SortType.ASC) { // ASC
@@ -31,22 +32,25 @@ module.exports = {
         } else {
           criteria.orderByID(SortType.DESC);
         }
-      } else if (orderBy.orderType === SortType.ASC) { // ASC
-        criteria.orderByCategory(SortType.ASC);
+      } else if (orderBy.orderKey === 2) {
+        if (orderBy.orderType === SortType.ASC) { // ASC
+          criteria.orderByCategory(SortType.ASC);
+        } else {
+          criteria.orderByCategory(SortType.DESC);
+        }
       } else {
-        criteria.orderByCategory(SortType.DESC);
+        noOrderBy = true;
       }
-    } else {
-      criteria.orderByIntime();
     }
 
     const page = {
       page: pager.page,
-      maxRecord: (config.ADMINMAXRECORDCOUNT_MISCELLANEOUS * pager.page),
+      maxRecord: config.ADMINMAXRECORDCOUNT_MISCELLANEOUS,
     };
     const CategoryCount = await repository.CategoryRepository.getCategoryListCount(criteria);
     criteria.setPager(page);
- 
+    if (noOrderBy === true) criteria.orderByIntime();
+
     const result = await repository.CategoryRepository.getCategoryList(criteria);
 
     const mappedValues = result.map(repository.MapGetDataList);

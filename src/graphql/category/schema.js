@@ -25,6 +25,7 @@ module.exports = {
 
         input CategoryDeleteInput {
             ncategory_id: Int!
+            status:Int
         }
 
         `,
