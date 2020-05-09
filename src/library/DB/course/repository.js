@@ -79,9 +79,20 @@ function CourseRepository(connection) {
       throw err;
     }
   };
+  const buildCrit = (crit = courseCriteria()) => {
+    let criterias = null;
+
+    if (crit.getBuildCriteria) {
+      criterias = crit.getBuildCriteria();
+    } else {
+      criterias = crit;
+    }
+    return criterias;
+  };
   const getCourseList = async (crit = courseCriteria()) => {
     try {
-      const courseData = await courseDB.search(queries.courseList, crit.getBuildCriteria());
+      const criterias = buildCrit(crit);
+      const courseData = await courseDB.search(queries.courseList, criterias);
       return courseData;
     } catch (err) {
       throw err;
@@ -97,8 +108,9 @@ function CourseRepository(connection) {
   };
   const getCourseListCount = async (crit = courseCriteria()) => {
     try {
-      const result = await courseDB.getCount(crit.getBuildCriteria(), 'ncourse_id');
-      return result;
+      const criterias = buildCrit(crit);
+      const result = await courseDB.search(queries.courseListCount, criterias);
+      return result[0];
     } catch (err) {
       throw err;
     }
