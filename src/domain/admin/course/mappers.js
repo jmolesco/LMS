@@ -7,6 +7,7 @@ const config = require('@Library/config');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { SortType } = require('@Library/constants');
 
+
 module.exports = {
   MapCourseList: async ({
     pager,
@@ -70,7 +71,7 @@ module.exports = {
 
     const result = await repository.CourseRepository.getCourseList(newCriteria || criteria);
 
-    const mappedValues = result.map(repository.MapGetDataList);
+    const mappedValues = result.map(repository.MapGetCourseDataList);
     const list = { list: mappedValues };
     return repository.MapListWithPager(list, CourseCount.id, page);
   },
@@ -79,6 +80,6 @@ module.exports = {
     const criteria = courseCriteria();
     criteria.IdEqual(id);
     const result = await repository.CourseRepository.getCourseList(criteria);
-    return repository.MapGetDataList(result[0]);
+    return repository.MapGetCourseDataList(result[0]);
   },
 };
