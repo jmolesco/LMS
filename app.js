@@ -12,7 +12,8 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-const repository = require('@Library/repository');
+
+const { graphqlUploadExpress } = require('graphql-upload');
 const getAPIRoutes = require('./src/api');
 const graphqlSchema = require('./src/graphql/schema');
 const graphqlResolver = require('./src/graphql/resolver');
@@ -87,14 +88,17 @@ app.get('/time', async (req, res) => {
 });
 
 
-app.use('/graphql', graphqlHttp({
-  schema: graphqlSchema,
-  rootValue: graphqlResolver,
-  graphiql: config.DEBUG,
-  customFormatErrorFn: grahpqlErrorFormatter,
-  //extensions,
-}));
-
+app.use('/graphql',
+  graphqlUploadExpress({
+    maxFileSize: config.MAXFILESIZE,
+    maxFiles: config.MAXFILES,
+  }),
+  graphqlHttp({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql: config.DEBUG,
+    customFormatErrorFn: grahpqlErrorFormatter,
+  }));
 /*
 app.use('/images/qr', auth.MemberImageAccess(
   async (req, res) => {

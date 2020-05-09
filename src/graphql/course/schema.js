@@ -26,7 +26,8 @@ module.exports = {
             scourse_photo: String
             ncategory_id: Int
             ncreated_by: Int
-            nupdated_by: Int  
+            nupdated_by: Int 
+            scourse_image: String 
         }
           
         input CourseUpdateInput {
@@ -41,9 +42,14 @@ module.exports = {
 
         input CourseDeleteInput {
             ncourse_id: Int!
+            status:Int
         }
         `,
-  RootQuery: `GetCourseList (pager: Pager): CourseList
+  RootQuery: `GetCourseList (   pager: Pager
+                                filterStatus: FilterStatus,
+                                searchKeyword:SearchKeyword
+                                orderBy:OrderBy
+                ): CourseList
                 GetCourseDetail (id: Int!): Course
     `,
   RootMutation: `createCourse(courseInput: CourseInput!): Boolean!
