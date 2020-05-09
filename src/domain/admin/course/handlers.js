@@ -1,12 +1,37 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const repository = require('@Library/repository');
 const DBTransact = require('@Library/extensions/DBTransaction');
+const path = require('path');
+const fs = require('fs');
 
+async function UploadImage(params) {
+  const rootPath = path.dirname(require.main.filename);
+  const imgPath = path.join(rootPath, 'uploads\\');
+
+  if (!fs.existsSync(imgPath)) {
+    fs.mkdirSync(imgPath);
+  }
+  const images = await params;
+  const { filename, createReadStream } = await images.file;
+  const newName = `${Date.now()}_${filename}`;
+  const newPath = path.join(imgPath, newName);
+  const stream = createReadStream();
+
+  await Promise.resolve(new Promise((resolve, reject) => stream
+    .pipe(fs.createWriteStream(newPath))
+    .on('error', error => reject(error))
+    .on('finish', () => {
+      stream.destroy();
+      resolve(newPath);
+    })));
+  return newName;
+}
 async function InputValue(courseInput, isEdit = false) {
+  const name = await UploadImage(courseInput.image);
   const schema = {
     scourse_title: courseInput.scourse_title,
     scourse_description: courseInput.scourse_description,
-    scourse_photo: courseInput.scourse_photo,
+    scourse_photo: name,
     ncategory_id: courseInput.ncategory_id,
     ncreated_by: courseInput.ncreated_by,
   };
@@ -17,18 +42,12 @@ async function InputValue(courseInput, isEdit = false) {
 
   return schema;
 }
-async function UploadImage(params) {
-  const images = await params;
-  const promise = images.map(async (image) => {
-    const { filename, mimetype, createReadStream } = await image;
-    const stream = createReadStream();
-  });
-}
+
 module.exports = {
   HandleCreateCourse: DBTransact(async (connection, { courseInput }) => {
     const repo = repository(connection);
+    //const rec = await UploadImage(courseInput.image);
     const data = await InputValue(courseInput);
-    const rec = await UploadImage(courseInput.image);
     const newCourseStatus = await repo.CourseRepository.createCourse(data);
     return newCourseStatus;
   }),
