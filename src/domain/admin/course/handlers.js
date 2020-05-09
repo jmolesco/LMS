@@ -17,11 +17,18 @@ async function InputValue(courseInput, isEdit = false) {
 
   return schema;
 }
-
+async function UploadImage(params) {
+  const images = await params;
+  const promise = images.map(async (image) => {
+    const { filename, mimetype, createReadStream } = await image;
+    const stream = createReadStream();
+  });
+}
 module.exports = {
   HandleCreateCourse: DBTransact(async (connection, { courseInput }) => {
     const repo = repository(connection);
     const data = await InputValue(courseInput);
+    const rec = await UploadImage(courseInput.image);
     const newCourseStatus = await repo.CourseRepository.createCourse(data);
     return newCourseStatus;
   }),

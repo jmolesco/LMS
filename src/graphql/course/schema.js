@@ -26,8 +26,8 @@ module.exports = {
             scourse_photo: String
             ncategory_id: Int
             ncreated_by: Int
-            nupdated_by: Int 
-            scourse_image: String 
+            nupdated_by: Int  
+            image:Upload
         }
           
         input CourseUpdateInput {
