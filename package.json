@@ -7,7 +7,6 @@
     "postinstall": "link-module-alias",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "link-module-alias",
-    //"start": "nodemon app",
     "start": "node ./node_modules/babel-cli/bin/babel-node.js index.js",
     "lint": "npm run lint:js",
     "lint:eslint": "eslint --ignore-path .gitignore",
