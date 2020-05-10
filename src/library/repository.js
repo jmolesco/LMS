@@ -7,6 +7,7 @@ const _CategoryRepository = require('./DB/category/repository');
 const _CourseRepository = require('./DB/course/repository');
 const _UserRepository = require('./DB/user/repository');
 const helpers = require('./helpers');
+const config = require('./config');
 
 function Repository(connection, _lang) {
   const CategoryRepository = _CategoryRepository(connection);
@@ -31,7 +32,6 @@ function Repository(connection, _lang) {
     ...data,
     intime: helpers.formatDateTimeToStringPH(data.intime),
     uptime: data.uptime ? helpers.formatDateTimeToStringPH(data.uptime) : 'null',
-    scourse_photo: data.scourse_photo ? path.join(path.dirname(require.main.filename), `uploads\\${data.scourse_photo}`) : '',
   });
   return {
     MapListWithPager,

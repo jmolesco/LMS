@@ -70,15 +70,6 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(cors(corsOptions));
 }
 
-// const extensions = (async (requestInfo) => {
-//   if (typeof requestInfo.result.errors !== 'undefined') {
-//     const repo = repository();
-//     await repo.ErrorLogsRepository.LogErrors(requestInfo);
-//   }
-// });
-
-// TODO: enable on phase 2 for security of requests
-// app.use(auth.setAppKeyFlag);
 app.use(auth.setAuthFlag);
 app.use(auth.setLINEFlag);
 
@@ -99,41 +90,22 @@ app.use('/graphql',
     graphiql: config.DEBUG,
     customFormatErrorFn: grahpqlErrorFormatter,
   }));
-/*
-app.use('/images/qr', auth.MemberImageAccess(
+
+app.use('/images/public', express.static(path.join(__dirname, './uploads/')));
+
+app.use('/image/uploads', auth.AnonymousAccess(
   async (req, res) => {
-    if (!req.isAuth) {
-      res.sendStatus(404);
-    } else {
-      const loc = path.resolve(__dirname, `./src/assets/images/${req.lineId}.png`);
-      fs.access(loc, fs.F_OK, (err) => {
-        if (err) {
-          res.sendStatus(404);
-        } else {
-          res.sendFile(loc);
-        }
-      });
-    }
+    const loc = path.resolve(__dirname, `./uploads/${req.query.filename}`);
+    fs.access(loc, fs.F_OK, (err) => {
+      if (err) {
+        res.sendStatus(404);
+      } else {
+        res.sendFile(loc);
+      }
+    });
   },
 ));
 
-app.use('/admin/images/qr', auth.AdminAssetAccess(
-  async (req, res) => {
-    if (!req.isAuth) {
-      res.sendStatus(404);
-    } else {
-      const loc = path.resolve(__dirname, `./src/assets/images/${req.query.filename}.png`);
-      fs.access(loc, fs.F_OK, (err) => {
-        if (err) {
-          res.sendStatus(404);
-        } else {
-          res.sendFile(loc);
-        }
-      });
-    }
-  },
-));
-*/
 /** ** THIS SECTION IS USE IN POITORE DEVELOPMENT. PLS SAVE */
 app.use('/api', routes);
 app.use('/download/csv', auth.AdminAssetAccess(
