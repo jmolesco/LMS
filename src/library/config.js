@@ -54,4 +54,5 @@ module.exports = {
   SUBJECTREJECT: 'Task Rejection Notice',
   TASKHISTORY: 10,
   MAXLENGTH_TEXT: 128,
+  IMAGEPATH: 'http://localhost:13003//images/public/',
 };

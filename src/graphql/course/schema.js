@@ -13,6 +13,7 @@ module.exports = {
             intime: String  
             uptime: String    
             status: Int
+            imageName:String
         }
 
         type CourseList{
