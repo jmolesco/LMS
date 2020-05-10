@@ -7,7 +7,8 @@
     "postinstall": "link-module-alias",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "link-module-alias",
-    "start": "nodemon app",
+    //"start": "nodemon app",
+    "start": "node ./node_modules/babel-cli/bin/babel-node.js index.js",
     "lint": "npm run lint:js",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint:eslint:fix": "eslint --ignore-path .gitignore --fix",
@@ -29,6 +30,7 @@
   "pre-commit": "lint:staged",
   "author": "Blotocol PH",
   "license": "ISC",
+  "engines": {"node": "12.16.1"},
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
     "axios": "^0.19.0",
