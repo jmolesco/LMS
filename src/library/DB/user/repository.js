@@ -12,14 +12,11 @@ function UserRepository(connection) {
         schema.nuser_id = props.nuser_id;
       }
     }
-    if (props.suser_name) {
-      schema.suser_name = props.suser_name;
-    }
     if (props.nuser_email) {
       schema.nuser_email = props.nuser_email;
     }
-    if (props.suser_name) {
-      schema.suser_name = props.suser_name;
+    if (props.nuser_name) {
+      schema.nuser_name = props.nuser_name;
     }
     if (props.nuser_firstname) {
       schema.nuser_firstname = props.nuser_firstname;
@@ -75,12 +72,14 @@ function UserRepository(connection) {
       throw err;
     }
   };
-  const findUserByName = async (props, isEdit = false) => {
+  const findUserByName = async (props, isUserName, isEdit = false) => {
     try {
       const criteria = userCriteria();
       if (isEdit === true) criteria.notIdEqual(props.nuser_id);
 
-      criteria.userNameEqual(props.suser_name);
+      if (isUserName === true) criteria.userNameEqual(props.nuser_name);
+      else criteria.emailEqual(props.nuser_email);
+
       const userData = await userDB.find(criteria.getBuildCriteria());
       return userData;
     } catch (err) {
@@ -111,6 +110,14 @@ function UserRepository(connection) {
       throw err;
     }
   };
+  const LogInUserAccount = async (crit = userCriteria()) => {
+    try {
+      const result = await userDB.find(crit.getBuildCriteria());
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  };
   return {
     createUser,
     updateUser,
@@ -120,6 +127,7 @@ function UserRepository(connection) {
     getUserList,
     getUserListCount,
     getUserDetail,
+    LogInUserAccount,
   };
 }
 

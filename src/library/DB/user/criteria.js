@@ -15,6 +15,9 @@ const userCriteria = () => {
     userNameEqual: (value) => {
       baseCriteria.addCondition(DbHelper.criteria.EQUAL('users.nuser_name', value));
     },
+    passwordEqual: (value) => {
+      baseCriteria.addCondition(DbHelper.criteria.EQUAL('users.nuser_password', value));
+    },
     statusEqual: (status) => {
       baseCriteria.addCondition(DbHelper.criteria.EQUAL('users.status', status));
     },
