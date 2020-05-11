@@ -47,6 +47,8 @@ module.exports = {
             nuser_middlename: String
             nuser_picture: String
             nuser_password: String
+            image:Upload,
+            cpass:String
         }
           
         input UserUpdateInput {
@@ -77,17 +79,32 @@ module.exports = {
             sguardian_firstname: String
             scontact_emergency: String
             slast_school_attended: String
+            image:Upload
         }
 
         input UserDeleteInput {
             nUser_id: Int!
         }
+
+        type UserLogIn{
+            token:String
+            fullName:String
+            userName:String
+            id:Int
+            tokenExpiration:Int
+            nuser_group:Int
+        }
+        input UserLogInParameter{
+            nuser_name:String
+            nuser_password:String
+        }
         `,
   RootQuery: `GetUserList (pager: Pager): UserList
                 GetUserDetail (id: Int!): User
     `,
-  RootMutation: `createUser(userInput: UserInput!): Boolean!
+  RootMutation: `  createUser(userInput: UserInput!): Boolean!
                    updateUser(userUpdateInput: UserUpdateInput!): Boolean!
                    deleteUser(userDeleteInput: UserDeleteInput!): Boolean!
+                   logInUser(userLogInInput:UserLogInParameter!): UserLogIn
                    `,
 };

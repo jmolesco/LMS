@@ -16,4 +16,8 @@ module.exports = {
     ClientDomain.User().ValidateDeleteUser,
     ClientDomain.User().HandleDeleteUser,
   ),
+  logInUser: AnonymousAccess(
+    ClientDomain.User().ValidateLogInUser,
+    ClientDomain.User().HandleLogInUser,
+  ),
 };

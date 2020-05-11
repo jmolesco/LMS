@@ -38,6 +38,8 @@ const verifyToken = (token, ignoreExp) => {
  * @param {Date} date Date to be formatted
  * @description Format date to string
  */
+
+
 const formatDateToString = (date, format, locale) => moment(date, null, locale, null)
   .format(format || config.DATE_FORMAT);
 
