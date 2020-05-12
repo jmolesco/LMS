@@ -21,6 +21,46 @@ const userCriteria = () => {
     statusEqual: (status) => {
       baseCriteria.addCondition(DbHelper.criteria.EQUAL('users.status', status));
     },
+    roleEqual: (status) => {
+      baseCriteria.addCondition(DbHelper.criteria.EQUAL('users.ndefault_pageview', status));
+    },
+    fullNameLike: (value) => {
+      baseCriteria.addCondition(DbHelper.criteria.CONSTANT(`CONCAT(users.nuser_firstname, ' ',users.nuser_lastname) LIKE '${value}'`));
+    },
+    emailLike: (value) => {
+      baseCriteria.addCondition(DbHelper.criteria.FULL_LIKE('users.nuser_email', value));
+    },
+    userNameLike: (value) => {
+      baseCriteria.addCondition(DbHelper.criteria.FULL_LIKE('users.nuser_name', value));
+    },
+    orderByID: (sortType) => {
+      if (sortType === 1) {
+        baseCriteria.addOrderBy('users.nuser_id');
+      } else {
+        baseCriteria.addOrderByDesc('users.nuser_id');
+      }
+    },
+    orderByFullName: (sortType) => {
+      if (sortType === 1) {
+        baseCriteria.addOrderBy('nfull_name');
+      } else {
+        baseCriteria.addOrderByDesc('nfull_name');
+      }
+    },
+    orderByEmail: (sortType) => {
+      if (sortType === 1) {
+        baseCriteria.addOrderBy('users.nuser_email');
+      } else {
+        baseCriteria.addOrderByDesc('users.nuser_email');
+      }
+    },
+    orderByUserName: (sortType) => {
+      if (sortType === 1) {
+        baseCriteria.addOrderBy('users.nuser_name');
+      } else {
+        baseCriteria.addOrderByDesc('users.nuser_name');
+      }
+    },
     orderByIntime: () => {
       baseCriteria.addOrderByDesc('OrderDateTime');
     },

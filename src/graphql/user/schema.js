@@ -2,9 +2,11 @@ module.exports = {
   Types: `
 
         type User{
+            nuser_id:Int!
             nuser_name: String
             nuser_email: String 
             nuser_firstname: String
+            nfull_name: String
             nuser_suffixname: String
             nuser_lastname: String
             nuser_middlename: String
@@ -22,7 +24,7 @@ module.exports = {
             suser_country: String
             nnationality_id: Int
             nuser_verified: Int
-            nuser_gender: Int
+            nuser_gender: String
             sguardian_lastname: String
             sguardian_middlename: String
             sguardian_firstname: String
@@ -31,6 +33,7 @@ module.exports = {
             intime: String  
             uptime: String    
             status: Int
+            ndefault_pageview:Int
         }
 
         type UserList{
@@ -48,7 +51,8 @@ module.exports = {
             nuser_picture: String
             nuser_password: String
             image:Upload,
-            cpass:String
+            cpass:String,
+            ndefault_pageview:Int
         }
           
         input UserUpdateInput {
@@ -79,11 +83,13 @@ module.exports = {
             sguardian_firstname: String
             scontact_emergency: String
             slast_school_attended: String
+            ndefault_pageview:Int
             image:Upload
         }
 
         input UserDeleteInput {
-            nUser_id: Int!
+            nuser_id: Int!
+            status:Int
         }
 
         type UserLogIn{
@@ -98,8 +104,17 @@ module.exports = {
             nuser_name:String
             nuser_password:String
         }
+
+        input FilterRole{
+            role:Int
+        }
         `,
-  RootQuery: `GetUserList (pager: Pager): UserList
+  RootQuery: `GetUserList (pager: Pager, 
+    filterStatus: FilterStatus,
+    searchKeyword: SearchKeyword
+    orderBy: OrderBy
+    filterRole: FilterRole
+    ): UserList
                 GetUserDetail (id: Int!): User
     `,
   RootMutation: `  createUser(userInput: UserInput!): Boolean!

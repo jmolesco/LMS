@@ -1,6 +1,6 @@
 const user = require('./user');
 const userCriteria = require('./criteria');
-
+const queries = require('./queries');
 function UserRepository(connection) {
   const userDB = user(connection);
 
@@ -36,6 +36,9 @@ function UserRepository(connection) {
     if (props.nuser_password) {
       schema.nuser_password = props.nuser_password;
     }
+    if (props.ndefault_pageview) {
+      schema.ndefault_pageview = props.ndefault_pageview;
+    }
     return schema;
   };
   const createUser = async (props) => {
@@ -56,7 +59,7 @@ function UserRepository(connection) {
     const criteria = userCriteria();
     criteria.IdEqual(props.nuser_id);
     const userData = {};
-    userData.status = 0;
+    userData.status = props.status;
     const result = await userDB.update(userData, criteria.getBuildCriteria());
     return result.affectedRows > 0;
   };
@@ -86,9 +89,20 @@ function UserRepository(connection) {
       throw err;
     }
   };
+  const buildCrit = (crit = userCriteria()) => {
+    let criterias = null;
+
+    if (crit.getBuildCriteria) {
+      criterias = crit.getBuildCriteria();
+    } else {
+      criterias = crit;
+    }
+    return criterias;
+  };
   const getUserList = async (crit = userCriteria()) => {
     try {
-      const userData = await userDB.find(crit.getBuildCriteria());
+      const criterias = buildCrit(crit);
+      const userData = await userDB.search(queries.userList, criterias);
       return userData;
     } catch (err) {
       throw err;
@@ -104,8 +118,9 @@ function UserRepository(connection) {
   };
   const getUserListCount = async (crit = userCriteria()) => {
     try {
-      const result = await userDB.getCount(crit.getBuildCriteria(), 'nuser_id');
-      return result;
+      const criterias = buildCrit(crit);
+      const result = await userDB.search(queries.userListCount, criterias);
+      return result[0];
     } catch (err) {
       throw err;
     }

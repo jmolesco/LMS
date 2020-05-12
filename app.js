@@ -92,6 +92,7 @@ app.use('/graphql',
   }));
 
 app.use('/images/public', express.static(path.join(__dirname, './uploads/')));
+app.use('/images/profile', express.static(path.join(__dirname, './uploads/profile/')));
 
 app.use('/image/uploads', auth.AnonymousAccess(
   async (req, res) => {
@@ -108,31 +109,31 @@ app.use('/image/uploads', auth.AnonymousAccess(
 
 /** ** THIS SECTION IS USE IN POITORE DEVELOPMENT. PLS SAVE */
 app.use('/api', routes);
-app.use('/download/csv', auth.AdminAssetAccess(
-  async (req, res) => {
-    if (!req.isAuth) {
-      res.sendStatus(404);
-    } else {
-      const loc = path.resolve(__dirname, `./src/assets/csv/${req.query.filename}.csv`);
-      fs.access(loc, fs.F_OK, (err) => {
-        if (err) {
-          console.log(err);
-          res.sendStatus(404);
-        } else {
-          const file = fs.createReadStream(loc);
-          file.on('end', () => {
-            fs.unlink(loc, () => {
-              // file deleted
-            });
-          });
-          res.set('content-disposition', `attachment; filename="${req.query.filename}.csv"`);
-          res.set('Content-Type', 'text/csv');
-          file.pipe(res);
-        }
-      });
-    }
-  },
-));
+// app.use('/download/csv', auth.AdminAssetAccess(
+//   async (req, res) => {
+//     if (!req.isAuth) {
+//       res.sendStatus(404);
+//     } else {
+//       const loc = path.resolve(__dirname, `./src/assets/csv/${req.query.filename}.csv`);
+//       fs.access(loc, fs.F_OK, (err) => {
+//         if (err) {
+//           console.log(err);
+//           res.sendStatus(404);
+//         } else {
+//           const file = fs.createReadStream(loc);
+//           file.on('end', () => {
+//             fs.unlink(loc, () => {
+//               // file deleted
+//             });
+//           });
+//           res.set('content-disposition', `attachment; filename="${req.query.filename}.csv"`);
+//           res.set('Content-Type', 'text/csv');
+//           file.pipe(res);
+//         }
+//       });
+//     }
+//   },
+// ));
 /** ******END OF POITORE DEVELOPMENT */
 
 const customHost = process.env.HOST;
