@@ -41,6 +41,7 @@ async function InputValue(userInput, isEdit = false) {
     nuser_lastname: userInput.nuser_lastname,
     nuser_picture: name,
     nuser_password: userInput.nuser_password,
+    ndefault_pageview: userInput.ndefault_pageview,
   };
   if (isEdit === true) {
     schema.nuser_id = userInput.nuser_id;
@@ -85,7 +86,7 @@ module.exports = {
     const repo = repository(connection);
     const newUserDeleteStatus = await repo.UserRepository.deleteUser({
       nuser_id: userDeleteInput.nuser_id,
-      status: 0,
+      status: userDeleteInput.status,
     });
     return newUserDeleteStatus;
   }),
