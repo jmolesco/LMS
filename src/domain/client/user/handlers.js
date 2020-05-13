@@ -109,7 +109,7 @@ module.exports = {
       userName: data.nuser_name,
       id: data.nuser_id,
       tokenExpiration: token.tokenExpiration,
-      nuser_group: data.nuser_group,
+      ndefault_pageview: data.ndefault_pageview,
     };
     return dataInfo;
   }),
