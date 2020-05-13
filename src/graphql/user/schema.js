@@ -98,7 +98,7 @@ module.exports = {
             userName:String
             id:Int
             tokenExpiration:Int
-            nuser_group:Int
+            ndefault_pageview:Int
         }
         input UserLogInParameter{
             nuser_name:String
