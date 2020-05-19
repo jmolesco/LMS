@@ -3,6 +3,7 @@ const AdminLogIn = require('../AdminLogIn');
 const Category = require('../category');
 const Course = require('../course');
 const User = require('../user');
+const Lesson = require('../lesson');
 
 module.exports = {
   ...AdminLogIn.Resolvers,
@@ -13,4 +14,6 @@ module.exports = {
   ...Course.Mutations,
   ...User.Resolvers,
   ...User.Mutations,
+  ...Lesson.Resolvers,
+  ...Lesson.Mutations,
 };

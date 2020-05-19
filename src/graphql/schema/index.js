@@ -3,13 +3,14 @@ const AdminLogIn = require('../AdminLogIn');
 const Category = require('../category');
 const Course = require('../course');
 const User = require('../user');
+const Lesson = require('../lesson');
 
 const schema = `
 ${AdminLogIn.Schema.Types}
 ${Category.Schema.Types}
 ${Course.Schema.Types}
 ${User.Schema.Types}
-
+${Lesson.Schema.Types}
 
 input FilterStatus{
     status:Int           
@@ -40,6 +41,7 @@ ${AdminLogIn.Schema.RootQuery}
 ${Category.Schema.RootQuery}   
 ${Course.Schema.RootQuery}  
 ${User.Schema.RootQuery}  
+${Lesson.Schema.RootQuery}  
 }
 
 type RootMutation {
@@ -47,6 +49,7 @@ ${AdminLogIn.Schema.RootMutation}
 ${Category.Schema.RootMutation}  
 ${Course.Schema.RootMutation}  
 ${User.Schema.RootMutation}  
+${Lesson.Schema.RootMutation}  
 }
 
 scalar Upload
