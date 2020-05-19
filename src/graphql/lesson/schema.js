@@ -27,6 +27,7 @@ module.exports = {
             attachment_type:Int
             attachment:String
             summary:String
+            file:Upload
         }
           
         input LessonUpdateInput {
@@ -37,6 +38,7 @@ module.exports = {
             attachment_type:Int
             attachment:String
             summary:String
+            file:Upload
         }
 
         input LessonDeleteInput {

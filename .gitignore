@@ -4,4 +4,5 @@ node_modules
 .vscode
 src/assets/images/
 src/batch/logs/
+uploads/
 runner.sh

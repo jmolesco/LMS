@@ -85,4 +85,5 @@ module.exports = {
   LMS00004: { errorCode: 'LMS00004', errorMessage: 'Username already exist.' },
   LMS00005: { errorCode: 'LMS00005', errorMessage: 'Email Address already exist.' },
   LMS00006: { errorCode: 'LMS00006', errorMessage: 'Username or Password is incorrect. Try again!' },
+  LMS00007: { errorCode: 'LMS00007', errorMessage: 'Invalid video format. Only allows mp4, webm & ogg' },
 };
