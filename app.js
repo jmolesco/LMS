@@ -93,6 +93,7 @@ app.use('/graphql',
 
 app.use('/images/public', express.static(path.join(__dirname, './uploads/')));
 app.use('/images/profile', express.static(path.join(__dirname, './uploads/profile/')));
+app.use('/images/lessons', express.static(path.join(__dirname, './uploads/lessons/')));
 
 app.use('/image/uploads', auth.AnonymousAccess(
   async (req, res) => {

@@ -1,14 +1,39 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const repository = require('@Library/repository');
 const DBTransact = require('@Library/extensions/DBTransaction');
+const path = require('path');
+const fs = require('fs');
 
+async function UploadFile(params) {
+  const rootPath = path.dirname(require.main.filename);
+  const filePath = path.join(rootPath, 'uploads\\lessons\\');
+
+  if (!fs.existsSync(filePath)) {
+    fs.mkdirSync(filePath);
+  }
+  const images = await params;
+  const { filename, createReadStream } = await images.file;
+  const newName = `${Date.now()}_${filename}`;
+  const newPath = path.join(filePath, newName);
+  const stream = createReadStream();
+
+  await Promise.resolve(new Promise((resolve, reject) => stream
+    .pipe(fs.createWriteStream(newPath))
+    .on('error', error => reject(error))
+    .on('finish', () => {
+      stream.destroy();
+      resolve(newPath);
+    })));
+  return newName;
+}
 async function InputValue(lessonInput, isEdit = false) {
+  const fileName = await UploadFile(lessonInput.file);
   const schema = {
     title: lessonInput.title,
     duration: lessonInput.duration,
     course_id: lessonInput.course_id,
     attachment_type: lessonInput.attachment_type,
-    attachment: lessonInput.attachment,
+    attachment: fileName,
     summary: lessonInput.summary,
   };
   if (isEdit === true) {

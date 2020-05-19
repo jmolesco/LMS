@@ -5,6 +5,11 @@ const messages = require('@Library/message-resources');
 const repository = require('@Library/repository');
 const { CreateLessonSchema, DeleteLessonSchema } = require('./schemaValidation');
 
+async function UploadFile(params) {
+  const images = await params;
+  const { mimetype } = await images.file;
+  return mimetype;
+}
 module.exports = {
   ValidateCreateLesson: async ({ lessonInput }) => {
     const errors = validation.SchemaValidator(CreateLessonSchema())(lessonInput);
@@ -14,6 +19,14 @@ module.exports = {
     if (result.length > 0) {
       errors.addFieldError('title', messages.LMS00002);
     }
+
+    if (lessonInput.attachment_type === 2) {
+      const type = await UploadFile(lessonInput.file);
+      if (!(type === 'video/mp4' || type === 'video/webm' || type === 'video/ogg')) {
+        errors.addFieldError('attachment', messages.LMS00007);
+      }
+    }
+
     if (errors.hasError()) {
       throw errors;
     }
