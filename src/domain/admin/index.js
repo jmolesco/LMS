@@ -11,6 +11,7 @@
 const AdminLogIn = require('./AdminLogIn');
 const Category = require('./category');
 const Course = require('./course');
+const Lesson = require('./lesson');
 
 module.exports = {
 // SAMPLE DECLARATION
@@ -18,4 +19,5 @@ module.exports = {
   AdminLogIn: () => AdminLogIn,
   Category: () => Category,
   Course: () => Course,
+  Lesson: () => Lesson,
 };

@@ -2,10 +2,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
 
-const path = require('path');
+
 const _CategoryRepository = require('./DB/category/repository');
 const _CourseRepository = require('./DB/course/repository');
 const _UserRepository = require('./DB/user/repository');
+const _LessonRepository = require('./DB/lesson/repository');
+
 const helpers = require('./helpers');
 const config = require('./config');
 
@@ -13,6 +15,7 @@ function Repository(connection, _lang) {
   const CategoryRepository = _CategoryRepository(connection);
   const CourseRepository = _CourseRepository(connection);
   const UserRepository = _UserRepository(connection);
+  const LessonRepository = _LessonRepository(connection);
 
   const MapListWithPager = (list, totalCount, pager, totalPerPage = 0) => ({
     ...list,
@@ -40,6 +43,7 @@ function Repository(connection, _lang) {
     CourseRepository,
     UserRepository,
     MapGetCourseDataList,
+    LessonRepository,
   };
 }
 
