@@ -44,7 +44,7 @@
     "eslint-config-airbnb": "^17.1.1",
     "express": "^4.17.1",
     "express-graphql": "^0.8.0",
-    "fast-csv": "^3.7.0",
+    "fast-csv": "^4.3.6",
     "graphql": "^14.6.0",
     "graphql-resolvers": "^0.3.3",
     "graphql-upload": "^10.0.0",
